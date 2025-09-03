@@ -1,0 +1,70 @@
+#!/bin/bash
+
+echo $0 $1 $2 $3
+
+if [ "$2" ]; then
+    DOMAIN=$2
+else
+    DOMAIN=caip.org.cn
+fi
+
+if [ "$3" ]; then
+    WORKDIR=$3
+else
+    WORKDIR=/data/caip-front/dist
+fi
+
+case "$1" in
+    test)  # 调试
+        sudo docker run -i --rm --name certbot \
+        -v "/data/letsencrypt/cli.ini:/cli.ini" \
+        -v "/data/letsencrypt/etc:/etc/letsencrypt" \
+        -v "/data/letsencrypt/lib:/var/lib/letsencrypt" \
+        -v "/data/letsencrypt/log:/var/log/letsencrypt" \
+        -v "$WORKDIR:/wwwroot" \
+        certbot/certbot:v1.22.0 \
+        certonly \
+        -n --dry-run \
+        --config /cli.ini \
+        -d $DOMAIN
+        ;;
+    renew) # 续期
+      sudo docker run -i --rm --name certbot \
+        -v "/data/letsencrypt/etc:/etc/letsencrypt" \
+        -v "/data/letsencrypt/lib:/var/lib/letsencrypt" \
+        -v "/data/letsencrypt/log:/var/log/letsencrypt" \
+        certbot/certbot:v1.22.0 \
+        renew \
+        --cert-name $DOMAIN
+
+        echo '复制证书文件'
+        # 覆盖已经存在的 ningx 证书
+        sudo \cp -f \
+            /data/letsencrypt/etc/live/$DOMAIN/fullchain.pem \
+            /data/config/nginx/cert/$DOMAIN.fullchain.pem
+        sudo \cp -f /data/letsencrypt/etc/live/$DOMAIN/privkey.pem \
+           /data/config/nginx/cert/$DOMAIN.privkey.pem
+        ;;
+
+    *)
+        sudo docker run -i --rm --name certbot \
+        -v "/data/letsencrypt/cli.ini:/cli.ini" \
+        -v "/data/letsencrypt/etc:/etc/letsencrypt" \
+        -v "/data/letsencrypt/lib:/var/lib/letsencrypt" \
+        -v "/data/letsencrypt/log:/var/log/letsencrypt" \
+        -v "$WORKDIR:/wwwroot" \
+        certbot/certbot:v1.22.0 \
+        certonly \
+        -n \
+        --config /cli.ini \
+        -d $DOMAIN
+
+        echo '复制证书文件'
+        # 覆盖已经存在的 ningx 证书
+        sudo \cp -f \
+            /data/letsencrypt/etc/live/$DOMAIN/fullchain.pem \
+            /data/config/nginx/cert/$DOMAIN/fullchain.pem
+        sudo \cp -f /data/letsencrypt/etc/live/$DOMAIN/privkey.pem \
+           /data/config/nginx/cert/$DOMAIN/privkey.pem
+      ;;
+esac

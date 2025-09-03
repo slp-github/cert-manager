@@ -1,0 +1,14 @@
+#!/bin/bash
+
+# 示例 Nginx 重载脚本
+
+echo "正在模拟重载 Nginx..."
+sleep 1
+echo "Nginx 已成功重载。"
+
+# 在实际环境中，您应该使用类似以下的命令:
+# sudo nginx -s reload
+# 或者
+# sudo systemctl reload nginx
+
+exit 0

@@ -1,0 +1,6 @@
+.history
+.codebuddy
+
+logs
+*.tmp
+*.tar
