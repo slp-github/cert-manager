@@ -986,9 +986,9 @@ validate_and_repair_config() {
         else
             echo "default_auto_renew = true"
             echo "reload_nginx_on_renew = true"
+            echo "show_statistics = true"
             echo "renew_before_days = 7"
             echo "max_retry_count = 3"
-            echo "show_statistics = false"
         fi
     } > "$temp_file"
     
