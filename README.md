@@ -20,28 +20,6 @@
   - Docker (用于certbot)
   - OpenSSL (用于证书解析)
 
-### Ubuntu/Debian 兼容性说明
-
-在某些Ubuntu环境中，可能会遇到第二次运行时程序退出的问题。这通常是由于Bash版本兼容性导致的。
-
-**解决方案：**
-
-1. **使用兼容模式**：
-   ```bash
-   SKIP_CONFIG_CHECK=true ./cert_manager.sh
-   ```
-
-2. **运行兼容性测试**：
-   ```bash
-   ./test_ubuntu_fix.sh
-   ```
-
-3. **升级Bash版本**（推荐）：
-   
-   ```bash
-   sudo apt update
-   sudo apt install bash
-   ```
 
 ## 快速开始
 
@@ -50,7 +28,7 @@
 ```bash
 # 克隆或下载项目文件
 git clone <repository-url>
-cd cert-ssl
+cd cert-manager
 
 # 赋予执行权限
 chmod +x cert_manager.sh

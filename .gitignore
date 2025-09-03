@@ -1,5 +1,6 @@
 .history
 .codebuddy
+.DS_Store
 
 logs
 *.tmp
