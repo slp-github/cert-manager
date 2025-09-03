@@ -24,7 +24,7 @@ trap 'handle_error $LINENO' ERR
 
 
 # 默认配置
-DEFAULT_CERT_DIR="./cert"
+DEFAULT_CERT_DIR="./cert-test"
 DEFAULT_RENEW_SCRIPT="./ca_update"
 DEFAULT_RELOAD_NGINX_SCRIPT="./reload-nginx"
 LOG_DIR="./logs"
